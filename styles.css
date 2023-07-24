@@ -1,0 +1,29 @@
+:root {}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.gameboard {
+    display: grid;
+    grid: repeat(3, 200px) / repeat(3, 200px);
+}
+
+.gameboard .square {
+    background-color: white;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10rem;
+}
