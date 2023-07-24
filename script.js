@@ -1,30 +1,51 @@
-let board = document.querySelector(".gameboard");
-
 const Gameboard = (() => {
-    let gameboard = ["x", "o", "x", "o", "x", "o", "x", "o", "x"];
+    let gameboard = ["", "", "", "", "", "", "", "", ""];
 
     const render = () => {
-        const squareList = document.querySelectorAll(".square");
-        squareList.forEach((square, index) => {
-            square.textContent = gameboard[index];
+        const squares = document.querySelectorAll(".square");
+        squares.forEach((square, index) => {
+            square.innerHTML = gameboard[index];
+            square.addEventListener("click", Game.click);
         });
     }
-    return { render };
+
+    const placeMarker = (index, player) => {
+        if (!gameboard[index]) {
+            gameboard[index] = player.marker;
+            Gameboard.render();
+        }
+    }
+
+    return { render, placeMarker };
 })();
+
+const createPlayer = (name, marker) => {
+    return { name, marker };
+};
 
 const Game = (() => {
     let players = [];
-    let currentPlayerIndex = 0;
+    let currentPlayerIndex;
+    let gameOver;
 
     const start = () => {
+        players = [
+            createPlayer("tom", "x"),
+            createPlayer("ari", "o")
+        ];
+        currentPlayerIndex = 0;
+        gameOver = false;
         Gameboard.render();
     }
-    
-    return{start};
+
+    const click = (e) => {
+        let index = e.target.id.split("-")[1];
+        Gameboard.placeMarker(index, players[currentPlayerIndex]);
+        currentPlayerIndex = (currentPlayerIndex == 0 ? 1 : 0);
+
+    }
+
+    return { start, click };
 })();
-
-const Player = (name, marker) => {
-
-};
 
 Game.start();
