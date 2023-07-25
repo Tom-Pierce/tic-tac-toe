@@ -15,23 +15,36 @@
 </head>
 
 <body>
-    
-    <div class="gameboard">
-        <div id="square-0" class="square"></div>
-        <div id="square-1" class="square"></div>
-        <div id="square-2" class="square"></div>
-        <div id="square-3" class="square"></div>
-        <div id="square-4" class="square"></div>
-        <div id="square-5" class="square"></div>
-        <div id="square-6" class="square"></div>
-        <div id="square-7" class="square"></div>
-        <div id="square-8" class="square"></div>
+
+    <div class="header">
+        <h1>Tic-Tac-Toe</h1>
+    </div>
+
+    <div class="announcement hide">
+        <div class="announcement-text">ari wins!</div>
+        <button type="button" class="control-btn" id="next-round-btn">Next Round</button>
+    </div>
+    <div class="game">
+        <div class="scoreboard hide" id="player1-score"></div>
+        
+        <div class="gameboard">
+            <div id="square-0" class="square"></div>
+            <div id="square-1" class="square"></div>
+            <div id="square-2" class="square"></div>
+            <div id="square-3" class="square"></div>
+            <div id="square-4" class="square"></div>
+            <div id="square-5" class="square"></div>
+            <div id="square-6" class="square"></div>
+            <div id="square-7" class="square"></div>
+            <div id="square-8" class="square"></div>
+        </div>
+
+        <div class="scoreboard hide" id="player2-score"></div>
     </div>
 
     <div class="controls">
         <input type="text" class="name-input" id="player1-name" placeholder="Player 1 Name">
         <button type="button" class="control-btn" id="start-btn">Start</button>
-        <button type="button" class="control-btn" id="restart-btn">Restart</button>
         <input type="text" class="name-input" id="player2-name" placeholder="Player 2 Name">
     </div>
 

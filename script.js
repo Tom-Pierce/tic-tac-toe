@@ -25,7 +25,7 @@ const Gameboard = (() => {
             if (gameboard[0] && gameboard[0] === gameboard[1] && gameboard[1] === gameboard[2]) {
                 return true;
             } else if (gameboard[3] && gameboard[3] === gameboard[4] && gameboard[4] === gameboard[5]) {
-                console.log("win")
+                return true;
             } else if (gameboard[6] && gameboard[6] === gameboard[7] && gameboard[7] === gameboard[8]) {
                 return true;
             }
@@ -61,14 +61,26 @@ const Game = (() => {
     let players = [];
     let currentPlayerIndex;
 
+    const announcementScreen = document.querySelector(".announcement");
+    const announcementText = document.querySelector(".announcement-text");
+    const controls = document.querySelector(".controls");
+    const scoreBoard1 = document.getElementById("player1-score");
+    const scoreBoard2 = document.getElementById("player2-score");
+
+
     const start = () => {
         players = [
-            createPlayer(document.querySelector("#player1-name").value, "x"),
-            createPlayer(document.querySelector("#player2-name").value, "o")
+            createPlayer(document.querySelector("#player1-name").value, "x", 0),
+            createPlayer(document.querySelector("#player2-name").value, "o", 0)
         ];
         currentPlayerIndex = 0;
         Gameboard.resetBoard();
         Gameboard.render();
+        controls.classList.toggle("hide");
+        scoreBoard1.classList.toggle("hide");
+        scoreBoard2.classList.toggle("hide");
+        scoreBoard1.innerHTML = `${players[0].name}: ${players[0].score}`
+        scoreBoard2.innerHTML = `${players[1].name}: ${players[1].score}`
     }
 
     const click = (e) => {
@@ -84,29 +96,37 @@ const Game = (() => {
 
     }
 
+    const newRound = () => {
+        //hide the announcement and reset the game
+        announcementScreen.classList.toggle("hide");
+        Gameboard.resetBoard();
+        Gameboard.render();
+
+    }
+
     const win = () => {
-        console.log("win");
+        announcementScreen.classList.toggle("hide");
+        // currentPlayerIndex gets swapped even on a win so we need to switch it back to get the correct winners name
+        currentPlayerIndex = (currentPlayerIndex == 0 ? 1 : 0);
+        announcementText.innerHTML = `${players[currentPlayerIndex].name} wins!`;
+        players[currentPlayerIndex].score++;
+        scoreBoard1.innerHTML = `${players[0].name}: ${players[0].score}`
+        scoreBoard2.innerHTML = `${players[1].name}: ${players[1].score}`
     }
 
     const draw = () => {
-        console.log("draw");
+        announcementScreen.classList.toggle("hide");
+        announcementText.innerHTML = `Draw`;
     }
 
-    const restart = () => {
-        Gameboard.resetBoard();
-        Gameboard.render();
-        currentPlayerIndex = 0;
-    }
-
-    return { start, click, restart, draw };
+    return { start, click, draw, newRound };
 })();
 
-const createPlayer = (name, marker) => {
-    console.log(name);
-    return { name, marker };
+const createPlayer = (name, marker, score) => {
+    return { name, marker, score };
 };
 
-startButton = document.querySelector("#start-btn");
-restartButton = document.querySelector("#restart-btn");
+const startButton = document.querySelector("#start-btn");
 startButton.addEventListener("click", Game.start);
-restartButton.addEventListener("click", Game.restart);
+const nextRoundButton = document.querySelector("#next-round-btn");
+nextRoundButton.addEventListener("click", Game.newRound);
